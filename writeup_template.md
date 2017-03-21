@@ -103,6 +103,7 @@ This is implemented in the sixth code cell of the IPython notebook. I recorded t
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
 Here are six frames and their corresponding heatmaps:
+
 ![alt text][image5.1a]![alt text][image5.1b]
 ![alt text][image5.2a]![alt text][image5.2b]
 ![alt text][image5.3a]![alt text][image5.3b]
@@ -111,9 +112,11 @@ Here are six frames and their corresponding heatmaps:
 ![alt text][image5.6a]![alt text][image5.6b]
 
 Here is the output of the integrated heatmap from all six frames:
+
 ![alt text][image6]
 
 Here the resulting bounding boxes are drawn onto the last frame in the series after applying `scipy.ndimage.measurements.label()` to the integrated heatmap:
+
 ![alt text][image7]
 
 ---
