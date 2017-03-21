@@ -17,7 +17,20 @@ The goals / steps of this project are the following:
 [image3.2]: ./output_images/sliding_windows2.png
 [image3.3]: ./output_images/sliding_windows3.png
 [image4]: ./output_images/sliding_window.png
-[image5]: ./output_images/bboxes_and_heat.png
+[image5.1a]: ./output_images/image0018.png
+[image5.1b]: ./output_images/heatmap0018.png
+[image5.2a]: ./output_images/image0019.png
+[image5.2b]: ./output_images/heatmap0019.png
+[image5.3a]: ./output_images/image0020.png
+[image5.3b]: ./output_images/heatmap0020.png
+[image5.4a]: ./output_images/image0021.png
+[image5.4b]: ./output_images/heatmap0021.png
+[image5.5a]: ./output_images/image0022.png
+[image5.5b]: ./output_images/heatmap0022.png
+[image5.6a]: ./output_images/image0023.png
+[image5.6b]: ./output_images/heatmap0023.png
+[image6]: ./output_images/finalhm0023.png
+[image7]: ./output_images/outimg0023.png
 [video1]: ./project.mp4
 
 ## [Rubric Points](https://review.udacity.com/#!/rubrics/513/view)
@@ -52,7 +65,7 @@ I tried various combinations of parameters, always balancing accuracy versus CPU
 - Orientations (8): bigger orientations did not lead to significant accuracy improvement
 - Pixels per cell (8x8): smaller values did not lead to significant accuracy improvement
 - Cells per block (2x2): smaller values did not lead to significant accuracy improvement
-- Color space (HSV): notably better accuracy than RGB, and same accuracy as recommended YCrCb
+- Color space (YCrCb): notably better accuracy than RGB, and similar accuracy as YUV and HSV.
 - Color channels (ALL): all color channels was clearly the winner in terms of accuracy over selecting any other single channel
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
@@ -72,7 +85,7 @@ However, small cars were not properly detected, so another search with a smaller
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on 4 scales (0.8, 1, 1.5, 2, 3) using HSV 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on 4 scales (0.75, 1, 1.5, 2, 3) using HSV 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  I also used a decision threshold to ensure the car predictions are made with high confidence, to avoid false positives. In other words using SVM terminology, predictions too close to the decision boundary will not be considered. Here are some example images with the windows found for the aforementioned scales:
 
 ![alt text][image4]
 ---
@@ -89,8 +102,19 @@ This is implemented in the sixth code cell of the IPython notebook. I recorded t
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
-Here is one of the test images with the final bounding boxes obtained from the `scipy.ndimage.measurements.label()` function and its corresponding heatmap after applying the threshold:
-![alt text][image5]
+Here are six frames and their corresponding heatmaps:
+![alt text][image5.1a]![alt text][image5.1b]
+![alt text][image5.2a]![alt text][image5.2b]
+![alt text][image5.3a]![alt text][image5.3b]
+![alt text][image5.4a]![alt text][image5.4b]
+![alt text][image5.5a]![alt text][image5.5b]
+![alt text][image5.6a]![alt text][image5.6b]
+
+Here is the output of the integrated heatmap from all six frames:
+![alt text][image6]
+
+Here the resulting bounding boxes are drawn onto the last frame in the series after applying `scipy.ndimage.measurements.label()` to the integrated heatmap:
+![alt text][image7]
 
 ---
 
@@ -102,8 +126,8 @@ I found this approach very unreliable and CPU intensive. After studying deep lea
 
 As in all projects of term 1, the biggest challenge has been finding out the best hyper-parameters for the model. As we cannot explore the whole combination of hyper-parameters, the fine-tuning process requires a lot of experience and intuition.
 
-I believe my pipeline would fail with different lightning and weather conditions. Also with noisy images, as I did not smooth the detected bounding boxes from frame to frame.
+I believe my pipeline would fail with different lightning and weather conditions.
 
 To improve the robustness of my model, next steps would be:
 1. Using a dynamic y_start_stop value based on the given scale
-2. Frame to frame smoothing to remove even more false positives and avoid bounding box flickering
+2. Train with more data and use a test set that is not related to the training set
